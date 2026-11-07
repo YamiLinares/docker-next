@@ -1,150 +1,241 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+/* Portada */
+.hero {
+  padding: 4rem 0 3.5rem;
 }
 
-.main {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+.heroInner {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: minmax(0, 1fr);
 }
 
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
+.kicker {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: -0.02em;
+  max-width: 20ch;
+}
+
+.lead {
+  margin-top: 1.25rem;
+  max-width: 40rem;
+  font-size: 1.075rem;
+  color: var(--muted);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.facts > div {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.facts > div:nth-child(odd) {
+  border-right: 1px solid var(--border);
+}
+
+.facts > div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.facts dt {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0.2rem 0 0;
   font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
 }
 
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
+@media (min-width: 900px) {
+  .heroInner {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: end;
+  }
 }
 
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
+/* Conceptos */
+.concepts {
+  margin: 0;
+  display: grid;
+  gap: 0;
 }
 
-.ctas {
+.concept {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.concept:first-child {
+  padding-top: 0;
+}
+
+.concept dt {
+  font-weight: 600;
+}
+
+.concept dd {
+  margin: 0;
+  color: var(--muted);
+  max-width: 46rem;
+}
+
+@media (min-width: 900px) {
+  .concept {
+    grid-template-columns: 16rem minmax(0, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Dockerfile */
+.dockerLayout {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.stages {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-content: start;
+}
+
+.stage {
+  padding-left: 1rem;
+  border-left: 2px solid var(--accent);
+}
+
+.stage h3 {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
 }
 
-.ctas a {
+.stageIndex {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.stage p {
+  font-size: 0.95rem;
+}
+
+.stageOutput {
+  margin-top: 0.4rem;
+  color: var(--muted);
+}
+
+.runtime {
+  margin: 0;
+  padding: 1rem;
+  display: grid;
+  gap: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.925rem;
+}
+
+.runtime dt {
+  font-weight: 600;
+}
+
+.runtime dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (min-width: 1000px) {
+  .dockerLayout {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: start;
+  }
+}
+
+/* Buenas prácticas */
+.practices {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1.75rem 2.5rem;
+  counter-reset: practice;
+}
+
+.practices li {
+  counter-increment: practice;
+  position: relative;
+  padding-left: 2.25rem;
+}
+
+.practices li::before {
+  content: counter(practice, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+.practices h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+}
+
+.practices p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.where {
+  margin-top: 0.4rem;
+}
+
+.where code {
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--code-bg);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+@media (min-width: 760px) {
+  .practices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Pie */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 0 2rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.footerInner {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
-}
-
-a.secondary {
-  border-color: var(--button-secondary-border);
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-}
-
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
-}
-
-.code {
-  font-family: var(--font-geist-mono);
-  font-size: 0.9em;
-  background: color-mix(in srgb, currentColor 8%, transparent);
-  padding: 0.1em 0.4em;
-  border-radius: 6px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
 }

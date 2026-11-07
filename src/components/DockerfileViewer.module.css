@@ -1,0 +1,45 @@
+.figure {
+  margin: 0;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--code-bg);
+  overflow: hidden;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: var(--surface);
+}
+
+.caption code {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.code {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  max-height: 34rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--code-text);
+}
+
+.comment {
+  color: var(--muted);
+}
+
+.from {
+  color: var(--accent);
+  font-weight: 600;
+}

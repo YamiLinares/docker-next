@@ -1,69 +1,162 @@
-import Image from "next/image";
+import CommandList from "@/components/CommandList";
+import DockerfileViewer from "@/components/DockerfileViewer";
+import PipelineDiagram from "@/components/PipelineDiagram";
+import Section from "@/components/Section";
+import {
+  INTERNAL_PORT,
+  LOCAL_PORT,
+  buildStages,
+  commands,
+  concepts,
+  pipeline,
+  practices,
+} from "@/lib/content";
 import styles from "./page.module.css";
+
+const facts = [
+  { label: "Imagen base", value: "node:24-alpine" },
+  { label: "Salida de Next.js", value: "standalone" },
+  { label: "Puerto interno", value: String(INTERNAL_PORT) },
+  { label: "Usuario", value: "node (no root)" },
+];
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
+    <main id="contenido">
+      <section id="inicio" className={styles.hero}>
+        <div className={`container ${styles.heroInner}`}>
+          <div>
+            <p className={styles.kicker}>Actividad práctica · Contenerización</p>
+            <h1>Contenerizar una aplicación Next.js con Docker</h1>
+            <p className={styles.lead}>
+              Esta página es, a la vez, la explicación y el ejemplo: se construye con el
+              Dockerfile que aparece más abajo y se está sirviendo desde un contenedor. Recorre
+              los conceptos básicos, el flujo de construcción, las etapas de la imagen y los
+              comandos para ejecutarla.
+            </p>
+          </div>
+          <dl className={styles.facts}>
+            {facts.map((fact) => (
+              <div key={fact.label}>
+                <dt>{fact.label}</dt>
+                <dd>
+                  <code>{fact.value}</code>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <Section
+        id="conceptos"
+        number="01"
+        title="Conceptos básicos"
+        intro="Antes de escribir el Dockerfile conviene tener claros los términos que se usan en el resto de la guía."
+      >
+        <dl className={styles.concepts}>
+          {concepts.map((concept) => (
+            <div key={concept.term} className={styles.concept}>
+              <dt>{concept.term}</dt>
+              <dd>{concept.description}</dd>
+            </div>
+          ))}
+        </dl>
+      </Section>
+
+      <Section
+        id="arquitectura"
+        number="02"
+        title="Del código fuente al navegador"
+        intro="Cada paso produce el insumo del siguiente. Los tres pasos centrales ocurren dentro de docker build; los dos últimos, al ejecutar el contenedor."
+      >
+        <PipelineDiagram steps={pipeline} />
+      </Section>
+
+      <Section
+        id="dockerfile"
+        number="03"
+        title="El Dockerfile y el build multi-stage"
+        intro="Un multi-stage build divide la construcción en etapas. Cada etapa empieza desde una imagen base y puede copiar archivos de una etapa anterior; solo la última forma parte de la imagen final."
+      >
+        <div className={styles.dockerLayout}>
+          <div className={styles.stages}>
+            {buildStages.map((stage, index) => (
+              <article key={stage.name} className={styles.stage}>
+                <h3>
+                  <span className={styles.stageIndex}>Etapa {index + 1}</span>
+                  <code>{stage.name}</code>
+                </h3>
+                <p>{stage.purpose}</p>
+                <p className={styles.stageOutput}>
+                  <strong>Resultado:</strong> {stage.output}
+                </p>
+              </article>
+            ))}
+            <dl className={styles.runtime}>
+              <div>
+                <dt>Puerto</dt>
+                <dd>
+                  <code>EXPOSE {INTERNAL_PORT}</code> documenta el puerto; se publica con{" "}
+                  <code>-p</code> al ejecutar.
+                </dd>
+              </div>
+              <div>
+                <dt>Host</dt>
+                <dd>
+                  <code>HOSTNAME=0.0.0.0</code> hace que el servidor acepte conexiones que
+                  llegan desde fuera del contenedor.
+                </dd>
+              </div>
+              <div>
+                <dt>Inicio</dt>
+                <dd>
+                  <code>CMD [&quot;node&quot;, &quot;server.js&quot;]</code> arranca el servidor
+                  generado por la salida standalone.
+                </dd>
+              </div>
+            </dl>
+          </div>
+          <DockerfileViewer />
+        </div>
+      </Section>
+
+      <Section
+        id="comandos"
+        number="04"
+        title="Comandos principales"
+        intro={`Se ejecutan desde la raíz del proyecto. El puerto local ${LOCAL_PORT} se puede cambiar por cualquier otro que esté libre; el interno sigue siendo ${INTERNAL_PORT}.`}
+      >
+        <CommandList commands={commands} />
+      </Section>
+
+      <Section
+        id="buenas-practicas"
+        number="05"
+        title="Buenas prácticas aplicadas"
+        intro="Cada práctica indica en qué parte del proyecto se puede comprobar."
+      >
+        <ol className={styles.practices}>
+          {practices.map((practice) => (
+            <li key={practice.title}>
+              <h3>{practice.title}</h3>
+              <p>{practice.description}</p>
+              <p className={styles.where}>
+                <code>{practice.where}</code>
+              </p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <footer className={styles.footer}>
+        <div className={`container ${styles.footerInner}`}>
+          <p>Docker Next Lab · Proyecto académico de Yami Linares</p>
           <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+            Estado del servidor: <a href="/api/health">/api/health</a>
           </p>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </footer>
+    </main>
   );
 }

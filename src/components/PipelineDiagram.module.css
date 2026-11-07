@@ -1,0 +1,77 @@
+.pipeline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Flecha hacia el siguiente paso: vertical en móvil, horizontal en escritorio. */
+.step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 1.25rem;
+  bottom: -1.5rem;
+  width: 2px;
+  height: 1.25rem;
+  background: var(--border);
+}
+
+.stage {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  height: 100%;
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.box code {
+  font-size: 0.8rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.step:nth-child(4) .box {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+@media (min-width: 900px) {
+  .pipeline {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+  }
+
+  .step:not(:last-child)::after {
+    left: auto;
+    right: -1.25rem;
+    bottom: auto;
+    top: calc(50% + 0.6rem);
+    width: 1rem;
+    height: 2px;
+  }
+}
