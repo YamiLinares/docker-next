@@ -1,0 +1,37 @@
+# Dependencias y resultados de compilación del equipo local:
+# la imagen instala y compila los suyos propios.
+node_modules
+.next
+out
+build
+coverage
+*.tsbuildinfo
+next-env.d.ts
+
+# Control de versiones
+.git
+.gitignore
+
+# Variables de entorno y secretos
+.env
+.env.*
+*.pem
+
+# Registros y temporales
+*.log
+npm-debug.log*
+tmp
+.tmp
+
+# Editores y sistema operativo
+.vscode
+.idea
+*.swp
+.DS_Store
+Thumbs.db
+
+# Archivos que no intervienen en el build
+README.md
+AGENTS.md
+.dockerignore
+.vercel
