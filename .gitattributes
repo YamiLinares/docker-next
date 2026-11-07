@@ -1,0 +1,5 @@
+# Mantiene finales de línea LF en el repositorio y en las copias de trabajo,
+# también en Windows. El Dockerfile y los scripts se ejecutan dentro de Linux.
+* text=auto eol=lf
+*.png binary
+*.ico binary
